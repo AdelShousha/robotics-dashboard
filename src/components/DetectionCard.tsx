@@ -42,8 +42,8 @@ export function DetectionCard({
         {/* Bottom-Right - Processed Data */}
         <div className="flex-1 flex flex-col justify-center gap-2 min-w-0">
           {/* License Plate Display */}
-          <div className="bg-gradient-to-b from-[#F8F8F8] to-[#E8E8E8] rounded-md px-3 sm:px-4 py-2 sm:py-2.5 border-2 border-[#1a1a1a] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8),inset_0_-1px_2px_rgba(0,0,0,0.1),0_2px_4px_rgba(0,0,0,0.3)]">
-            <div className="license-plate-text text-[#1a1a1a] text-lg sm:text-xl md:text-2xl text-center whitespace-nowrap overflow-hidden text-ellipsis">
+          <div className="bg-gradient-to-b from-[#F8F8F8] to-[#E8E8E8] rounded-md px-3 sm:px-4 py-2 sm:py-2.5 border-2 border-[#1a1a1a] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8),inset_0_-1px_2px_rgba(0,0,0,0.1),0_2px_4px_rgba(0,0,0,0.3)] w-fit max-w-full">
+            <div className="license-plate-text text-[#1a1a1a] text-base sm:text-lg md:text-xl text-center whitespace-nowrap">
               {plateNumber}
             </div>
           </div>
