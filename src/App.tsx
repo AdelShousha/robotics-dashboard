@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { Upload, Loader2 } from 'lucide-react';
 import { DetectionCard } from './components/DetectionCard';
 
 // API URL - use environment variable or default to localhost for development
@@ -51,6 +52,30 @@ export default function App() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleUpload = async (file: File) => {
+    setUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('imageFile', file);
+
+      const response = await fetch(`${API_URL}/api/recognize`, {
+        method: 'POST',
+        body: formData
+      });
+
+      if (response.ok) {
+        fetchDashboardData();
+      }
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  };
 
   const fetchDashboardData = async () => {
     try {
@@ -89,6 +114,32 @@ export default function App() {
               <div className="w-2 h-2 bg-[#00FF41] rounded-full pulse-dot"></div>
               <span className="text-xs sm:text-sm text-[#00FF41]">Live Monitor - Active</span>
             </div>
+
+            {/* Upload Button */}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={(e) => e.target.files?.[0] && handleUpload(e.target.files[0])}
+              className="hidden"
+            />
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              disabled={uploading}
+              className="flex items-center gap-2 px-3 py-1.5 bg-[#00FFFF] text-black text-xs sm:text-sm font-medium rounded-md hover:bg-[#00CCCC] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {uploading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Uploading...</span>
+                </>
+              ) : (
+                <>
+                  <Upload className="w-4 h-4" />
+                  <span className="hidden sm:inline">Upload</span>
+                </>
+              )}
+            </button>
           </div>
 
           {/* Right Side - Data Summary */}
