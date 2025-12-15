@@ -121,22 +121,36 @@ export default function App() {
               type="file"
               accept="image/*"
               onChange={(e) => e.target.files?.[0] && handleUpload(e.target.files[0])}
-              className="hidden"
+              style={{ display: 'none' }}
             />
             <button
               onClick={() => fileInputRef.current?.click()}
               disabled={uploading}
-              className="flex items-center gap-2 px-3 py-1.5 bg-[#00FFFF] text-black text-xs sm:text-sm font-medium rounded-md hover:bg-[#00CCCC] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 16px',
+                backgroundColor: uploading ? '#00CCCC' : '#00FFFF',
+                color: '#000000',
+                fontSize: '14px',
+                fontWeight: 600,
+                borderRadius: '8px',
+                border: 'none',
+                cursor: uploading ? 'not-allowed' : 'pointer',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                opacity: uploading ? 0.7 : 1,
+              }}
             >
               {uploading ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <Loader2 style={{ width: '16px', height: '16px', animation: 'spin 1s linear infinite' }} />
                   <span>Uploading...</span>
                 </>
               ) : (
                 <>
-                  <Upload className="w-4 h-4" />
-                  <span className="hidden sm:inline">Upload</span>
+                  <Upload style={{ width: '16px', height: '16px' }} />
+                  <span>Upload</span>
                 </>
               )}
             </button>
